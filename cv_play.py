@@ -1,8 +1,10 @@
 import cv2
 import numpy as np
 import imutils
+import sys
 
 def main():
+    print('Python version: {}.{}.{}'.format(sys.version_info.major,sys.version_info.minor,sys.version_info.micro))
     print('OpenCV version: {}'.format(cv2.__version__))
     print('Numpy version: {}'.format(np.__version__))
     print('imutils version: {}'.format(imutils.__version__))
