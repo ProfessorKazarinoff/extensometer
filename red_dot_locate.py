@@ -33,22 +33,22 @@ def measure_dot_distance(mask_image):
     #only proceed if at least 1 contour if found
     if len(cnts) > 0:
         #find the largest contour first
-        c = max(cnts, key=cv2.contourArea)
-        ((x, y), radius) = cv2.minEnclosingCircle(c)
-        M = cv2.moments(c)
-        center1 = (int(M["m10"] / M["m00"]), int(M["m01"] / M["m00"]))
+        c1 = cnts[0]
+        ((x, y), radius) = cv2.minEnclosingCircle(c1)
+        M1 = cv2.moments(c1)
+        center1 = (int(M1["m10"] / M1["m00"]), int(M1["m01"] / M1["m00"]))
         print(center1)
 
-        cnts_wout_max = cnts - c
-        c = max(cnts_wout_max, key=cv2.contourArea)
-        ((x, y), radius) = cv2.minEnclosingCircle(c)
-        M = cv2.moments(c)
-        center2 = (int(M["m10"] / M["m00"]), int(M["m01"] / M["m00"]))
+        
+        c2 = cnts[1]
+        ((x, y), radius) = cv2.minEnclosingCircle(c2)
+        M2 = cv2.moments(c2)
+        center2 = (int(M2["m10"] / M2["m00"]), int(M2["m01"] / M["m00"]))
         print(center2)
+
 
         d = (center1[0]-center2[0], center1[1]-center2[1])
         d = sqrt(d[0]**2 + d[1]**2)
-
         print('distance between dots: {} px'.format(d))
 
 def main():
