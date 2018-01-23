@@ -6,8 +6,9 @@ import imutils
 import sys
 import platform
 from cv_image_show import print_version_params, simple_image_show
+from math import sqrt
 
-def red_dot_pixel_distance(image_path):
+def make_red_mask(image_path):
     lowerRed = (163, 77, 94)     # use https://github.com/jrosebr1/imutils/blob/master/bin/range-detector
     upperRed =  (188, 255, 169)
 
@@ -23,15 +24,39 @@ def red_dot_pixel_distance(image_path):
     cv2.imshow('mask',mask)
     cv2.waitKey(0)
     # see: https://www.pyimagesearch.com/2015/09/14/ball-tracking-with-opencv/
-    pixel_distance = 32
-    return(pixel_distance)
 
+    return(mask)
+
+def measure_dot_distance(mask_image):
+    #find the contours of the mask
+    cnts = cv2.findContours(mask_image.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)[-2]
+    #only proceed if at least 1 contour if found
+    if len(cnts) > 0:
+        #find the largest contour first
+        c = max(cnts, key=cv2.contourArea)
+        ((x, y), radius) = cv2.minEnclosingCircle(c)
+        M = cv2.moments(c)
+        center1 = (int(M["m10"] / M["m00"]), int(M["m01"] / M["m00"]))
+        print(center1)
+
+        cnts_wout_max = cnts - c
+        c = max(cnts_wout_max, key=cv2.contourArea)
+        ((x, y), radius) = cv2.minEnclosingCircle(c)
+        M = cv2.moments(c)
+        center2 = (int(M["m10"] / M["m00"]), int(M["m01"] / M["m00"]))
+        print(center2)
+
+        d = (center1[0]-center2[0], center1[1]-center2[1])
+        d = sqrt(d[0]**2 + d[1]**2)
+
+        print('distance between dots: {} px'.format(d))
 
 def main():
     print_version_params()
     simple_image_show('tensile_bar_with_red_dots_cropped.jpg')
-    red_dot_pix_dist = red_dot_pixel_distance('tensile_bar_with_red_dots_cropped.jpg')
-    print('Distance in pixels between the two red dots: {} px'.format(red_dot_pix_dist))
+    mask = make_red_mask('tensile_bar_with_red_dots_cropped.jpg')
+    #print('Distance in pixels between the two red dots: {} px'.format(red_dot_pix_dist))
+    measure_dot_distance(mask)
 
 if __name__ =="__main__":
     main()
