@@ -24,7 +24,7 @@ def simple_image_show(path_to_image):
     :return:
     """
     image = cv2.imread(path_to_image)
-    cv2.imshow("Image Title", imutils.resize(image, height=600))
+    cv2.imshow("Press [ESC] to proceed", imutils.resize(image, height=600))
     cv2.waitKey(0)
 
 def main():

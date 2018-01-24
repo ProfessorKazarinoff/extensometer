@@ -21,7 +21,7 @@ def make_red_mask(image_path):
     mask = cv2.inRange(hsv,lowerRed,upperRed)
     mask = cv2.erode(mask, None, iterations=2)
     mask = cv2.dilate(mask, None, iterations=2)
-    cv2.imshow('mask',mask)
+    cv2.imshow('Press [ESC] to proceed',mask)
     cv2.waitKey(0)
     # see: https://www.pyimagesearch.com/2015/09/14/ball-tracking-with-opencv/
 
