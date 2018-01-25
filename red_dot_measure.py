@@ -37,14 +37,14 @@ def measure_dot_distance(mask_image):
         ((x, y), radius) = cv2.minEnclosingCircle(c1)
         M1 = cv2.moments(c1)
         center1 = (int(M1["m10"] / M1["m00"]), int(M1["m01"] / M1["m00"]))
-        print(center1)
+        print('Center of Dot 1 coordinates = {}'.format(center1))
 
         
         c2 = cnts[1]
         ((x, y), radius) = cv2.minEnclosingCircle(c2)
         M2 = cv2.moments(c2)
         center2 = (int(M2["m10"] / M2["m00"]), int(M2["m01"] / M2["m00"]))
-        print(center2)
+        print('Center of Dot 2 coordinates = {}'.format(center2))
 
 
         d = (center1[0]-center2[0], center1[1]-center2[1])
@@ -57,9 +57,8 @@ def main():
     print_version_params()
     simple_image_show('tensile_bar_with_red_dots_cropped.jpg')
     mask = make_red_mask('tensile_bar_with_red_dots_cropped.jpg')
-    #print('Distance in pixels between the two red dots: {} px'.format(red_dot_pix_dist))
     dotdistance = measure_dot_distance(mask)
-    print('distance between dots: {} px'.format(round(dotdistance, 2)))
+    print('Distance between dots: {} px'.format(round(dotdistance, 2)))
 
 if __name__ =="__main__":
     main()
