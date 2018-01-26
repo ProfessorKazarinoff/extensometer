@@ -7,7 +7,7 @@ def main():
     # import video or open webcam
     # parse out an individual frame
     # for frame in frams:
-    red_dot_measure.main()
+    video_dot_distance.main()
     # build numpy array of distances
 
 if __name__ == '__main__':
